@@ -1,5 +1,6 @@
 package org.malik.micro.currency_exchange_service.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.malik.micro.currency_exchange_service.api.CurrencyExchange;
 import org.malik.micro.currency_exchange_service.repository.CurrencyExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 public class CurrencyExchangeController {
 
@@ -23,6 +25,7 @@ public class CurrencyExchangeController {
 
     @GetMapping("/currency-exchange/from/{from}/to/{to}")
     public CurrencyExchange getExchangeValue(@PathVariable String from, @PathVariable String to) {
+        log.info("GET Exchange called with from {} and to ", from, to);
         List<CurrencyExchange> currencyExchangeList = Collections.singletonList(exchangeRepository.findByFromAndTo(from, to));
         List<CurrencyExchange> currencyExchanges = currencyExchangeList.stream().map(e -> CurrencyExchange
                 .builder().id(e.getId()).from(e.getFrom()).to(e.getTo())
